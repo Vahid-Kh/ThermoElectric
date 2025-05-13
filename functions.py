@@ -4,6 +4,12 @@ import numpy as np
 import random as rd
 
 
+def celsius_to_kelvin(T_celsius):
+    """Converts temperature from Celsius to Kelvin."""
+    return T_celsius + 273.15
+
+STEFAN_BOLTZMANN_CONST = 5.67e-8  # W/(m^2 K^4)
+
 def is_nan(x):
     return (x is np.nan or x != x)
 
