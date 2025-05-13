@@ -5,7 +5,7 @@ import random as rd
 import math
 from functions import *
 from scipy.signal import butter, lfilter, freqz
-from TDN import TDN, PSI
+
 from scipy.signal import correlate
 
 
