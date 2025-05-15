@@ -1,6 +1,7 @@
 import numpy as np  # For ln, and to handle potential division by zero gracefully
 from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # --- Constants and Helper Functions ---
 STEFAN_BOLTZMANN_CONST = 5.67e-8  # W/(m^2 K^4)
@@ -217,20 +218,22 @@ if __name__ == '__main__':
     T_dead_C       = 25.0                 # °C
 
     # Case 1 inputs
-    T_source_C         = 500.0            # Source temperature (°C)
-    emissivity_source  = 0.8           # Source emissivity
+    T_source_C         = 300.0            # Source temperature (°C)
+    emissivity_source_base  = 0.8         # Source emissivity
+    extended_surf_rat_to_HX_surf = 1.6         # Beam  shapping extended surface ratio
+    emissivity_source = emissivity_source_base * extended_surf_rat_to_HX_surf
     T_ambient_rad_C    = 25.0             # Surrounding for radiation (°C)
 
     # Geometry and materials
     area = 1  # m2
     thickness_adhesive = 1e-3  # m
     thickness_cu = 1e-3  # m
-    thickness_teg = 2e-3  # m
-    thickness_hx_wall = 1e-3  # m
+    thickness_teg = 4e-3  # m
+    thickness_hx_wall = 2e-3  # m
     k_adhesive = 0.5  # W/mK
     k_cu = 400  # W/mK
     k_teg = 1.5  # W/mK
-    k_hx_wall = 20  # W/mK
+    k_hx_wall = 167   # W/mK - from Aluminum 6061-T6
 
     # Environment
     Ts_C = 1000.0
@@ -238,7 +241,7 @@ if __name__ == '__main__':
     T_out_C = T_out_fluid_C
     Ta_C = T_dead_C
     emissivity = emissivity_source
-    h_conv = 25  # W/m2K
+    h_conv = 2000  # W/m2K
 
     # Temperatures
     Ts_K = celsius_to_kelvin(Ts_C)
@@ -610,9 +613,9 @@ if __name__ == '__main__':
     # -----------------------------
     # Optional: Print the resistance values
     # -----------------------------
-    print("Calculated Thermal Resistances:")
-    for name, value in resistances.items():
-        print(f"{name:20s}: {value:.6f} m²K/W")
+    # print("Calculated Thermal Resistances:")
+    # for name, value in resistances.items():
+    #     print(f"{name:20s}: {value:.6f} m²K/W")
 
 
     # Plot the resistances using a bar chart.
@@ -623,12 +626,59 @@ if __name__ == '__main__':
     plt.title('Thermal Resistances for Each Component')
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.show()
+
+
 
     # Create a list of resistances
 
     labels = ['Start', 'Surface Cond', 'Rad Air', 'Adhesive Hot', 'Cu Col Hot', 'TEG', 'Cu Col Cold', 'Adhesive Cold',
               'HX Cond', 'HX Conv']
+
+    # Format the results_case2 values
+
+
+    # Format the resistances values
+    formatted_resistances = {k: f"{v:.6f}" for k, v in resistances.items()}
+
+    # Create DataFrames
+
+    df_resistances = pd.DataFrame(list(formatted_resistances.items()), columns=['Parameter', 'Value'])
+    df_resistances['Unit'] = 'm²K/W'
+
+    # Define units for each parameter
+    units = {
+        'solver_success': '',
+        'Ts_C': '°C',
+        'q_stack': 'W/m²',
+        'q_rad_loss': 'W/m²',
+        'q_conv_loss': 'W/m²',
+        'ex_in_total': 'W/m²',
+        'ex_recovered': 'W/m²',
+        'ex_dest_TEG': 'W/m²',
+        'ex_dest_cond': 'W/m²',
+        'ex_q_rad_loss': 'W/m²',
+        'ex_q_conv_loss': 'W/m²',
+        'ex_dest_system_total': 'W/m²',
+        'eta_ex_system': ''
+    }
+
+    # Format the results_case2 values
+    formatted_results_case2 = {k: f"{v:.6f}" if isinstance(v, float) else str(v) for k, v in results_case2.items()}
+
+    # Create DataFrame with units
+    df_results_case2 = pd.DataFrame(list(formatted_results_case2.items()), columns=['Parameter', 'Value'])
+    df_results_case2['Unit'] = df_results_case2['Parameter'].map(units)
+
+    # Display DataFrame
+    print("Case 2 Results:")
+    print(df_results_case2.to_string(index=False))
+
+    print("\nElectricity and Heat Recovery:")
+    print(f"Electricity produced (TEG exergy): {formatted_results_case2['ex_recovered']} W/m2")
+    print(f"Heat recovered (fluid side): {formatted_results_case2['q_stack']} W/m^2")
+
+    print("\nCalculated Thermal Resistances:")
+    print(df_resistances.to_string(index=False))
 
 
     plt.show()
