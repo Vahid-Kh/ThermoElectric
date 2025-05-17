@@ -43,6 +43,11 @@ The code included in this project provides the tools and calculations for perfor
 * **TEG Integration:** Modeling the performance of thermoelectric generators within the heat exchanger.
 * **Thermal Resistance Modeling:** Accounting for the impact of various thermal resistances (e.g., contact resistance, material resistance) on overall system performance.
 
+
+## Diagram / Visualization 
+
+![TEG descreption, thermal resistance and schematics](./2ndLawTDN/ToGitHub.svg)
+
 ## Getting Started
 
 *(Users should add instructions on how to set up and run the code here. This might include dependencies, required software, and execution steps.)*
@@ -56,6 +61,3 @@ The code included in this project provides the tools and calculations for perfor
 
 
 
-## Diagram / Visualization 
-
-![TEG descreption, thermal resistance and schematics](ThermoElectric/2ndLawTDN/ToGitHub.svg)
