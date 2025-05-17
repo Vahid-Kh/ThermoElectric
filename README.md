@@ -53,3 +53,9 @@ The code included in this project provides the tools and calculations for perfor
 # cd your-repo-name
 # pip install -r requirements.txt
 # python main_analysis.py
+
+
+
+## Diagram / Visualization 
+
+![Description of your SVG image](path/to/your/image.svg)
