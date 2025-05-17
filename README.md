@@ -58,4 +58,4 @@ The code included in this project provides the tools and calculations for perfor
 
 ## Diagram / Visualization 
 
-![Description of your SVG image](path/to/your/image.svg)
+![TEG descreption, thermal resistance and schematics](ThermoElectric/2ndLawTDN/ToGitHub.svg)
