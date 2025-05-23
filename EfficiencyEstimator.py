@@ -13,8 +13,8 @@ import math
 
 T =  10
 CtoK = 273.15
-T_C = 5
-T_H = 40
+T_C = 25
+T_H = 280
 T_ave = (T_H+T_C) / 2
 T =T_ave
 DT = T_H - T_C

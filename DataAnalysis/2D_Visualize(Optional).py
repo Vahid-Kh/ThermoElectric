@@ -15,7 +15,7 @@ R = "R134a"
 
 days = [
     # "231010 - Energy balance with TEG_ARDUINO",
-    # "231010 - With TEG_CATMAN",
+    "231010 - With TEG_CATMAN",
     # "231010 - Energy balance with space(No TEG)_ARDUINO",
     # "231010 - With NO TEG_CATMAN",
 
@@ -63,7 +63,9 @@ for datanum in range(len(days)):
     print("________________________________________________________________________________")
     print("For data file:   ", days[datanum])
 
-    dfRaw = pd.read_csv('Data/Clean/' + days[datanum] + ".txt", skiprows=lambda x: logic(x))
+    dfRaw = pd.read_csv('C:\\Users\\U375297\\Git\\Python\\ThermoElectric\\Data\\Clean\\' + days[datanum] + ".txt", skiprows=lambda x: logic(x))
+
+    dfRaw = pd.read_csv('\\Clean\\' + days[datanum] + ".txt", skiprows=lambda x: logic(x))
     """ To take a portion of dataframe """
 
     df_Raw = dfRaw[int(len(dfRaw)*lowRange):int(len(dfRaw)*highRange)]
@@ -156,28 +158,28 @@ for datanum in range(len(days)):
 
                  )
 
-    # plot_2_maxed(data_to_plot_0,
-    #              mov_ave_data_to_plot_1,
-    #              mov_ave_data_to_plot_2,
-    #
-    #              ["Time",
-    #               data_label_to_plot_1,
-    #               data_label_to_plot_2,
-    #
-    #               ], days[datanum]
-    #
-    #              )
+    plot_2_maxed(data_to_plot_0,
+                 mov_ave_data_to_plot_1,
+                 mov_ave_data_to_plot_2,
+
+                 ["Time",
+                  data_label_to_plot_1,
+                  data_label_to_plot_2,
+
+                  ], days[datanum]
+
+                 )
 
     """ CORRELATION PLOTS """
-    # fCorr = plt.figure("CorrPlot Date " + days[datanum], figsize=(19, 15))
-    # plt.matshow(df_Raw.corr(), fignum=fCorr.number)
-    # cb = plt.colorbar()
-    # cb.ax.tick_params(labelsize=14)
-    # plt.xticks(range(df_Raw.select_dtypes(['number']).shape[1]), df_Raw.select_dtypes(['number']).columns, fontsize=14, rotation=90)
-    # plt.yticks(range(df_Raw.select_dtypes(['number']).shape[1]), df_Raw.select_dtypes(['number']).columns, fontsize=14)
-    #
-    # plt.title('Correlation Matrix'+days[datanum], fontsize=16)
-    # #########################################################
+    fCorr = plt.figure("CorrPlot Date " + days[datanum], figsize=(19, 15))
+    plt.matshow(df_Raw.corr(), fignum=fCorr.number)
+    cb = plt.colorbar()
+    cb.ax.tick_params(labelsize=14)
+    plt.xticks(range(df_Raw.select_dtypes(['number']).shape[1]), df_Raw.select_dtypes(['number']).columns, fontsize=14, rotation=90)
+    plt.yticks(range(df_Raw.select_dtypes(['number']).shape[1]), df_Raw.select_dtypes(['number']).columns, fontsize=14)
+
+    plt.title('Correlation Matrix'+days[datanum], fontsize=16)
+    #########################################################
 
 
 plt.show()
